@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
+  m_Name: ModConfig
+  m_EditorClassIdentifier: 
+  id: colourTalk
+  title: Colo(u)r Talk
+  author: Blananas2
+  description: "Since I\u2019m American I guess I\u2019ll try to find someone who
+    isn\u2019t so I can argue over which one is better. Kappa\n\nModule ID: colourTalk\nCreated
+    by Blananas2\n\nHuge thanks to the modding community for helping out with every
+    little thing I asked for, MrMelon for making the manual, everyone who added phrases
+    for this module, and to Sean for inspiring me to make mods in the first place.\n\nThe
+    manual can be found here: https://ktane.timwi.de/HTML/Colo(u)r%20Talk.html"
+  version: 1.0
+  outputFolder: build
+  previewImage: {fileID: 2800000, guid: 71389b155a7f0754f8ff4a9f77721183, type: 3}
