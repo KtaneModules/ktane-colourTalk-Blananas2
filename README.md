@@ -1,1 +1,1 @@
-ktane-colourTalk
+#[ModKit Wiki](../../wiki)
