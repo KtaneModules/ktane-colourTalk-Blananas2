@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
 
@@ -59,9 +60,22 @@ public class colourTalkScript : MonoBehaviour {
         GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         if (moduleSolved != true)
         {
+            var prevColor = selectedColor;
             selectedColor = (selectedColor + 1) % 17;
-            arrow.transform.localEulerAngles = new Vector3(-90, 0, arrowRot[selectedColor]);
+            StartCoroutine(TurnArrow(prevColor, selectedColor));
         }
+    }
+
+    private IEnumerator TurnArrow(int prevc, int selc)
+    {
+      var elapsed = 0f;
+      var duration = .5f;
+      while (elapsed < duration)
+      {
+        arrow.transform.localEulerAngles = new Vector3(-90, 0, Easing.InOutQuad(elapsed, arrowRot[prevc], arrowRot[selc], duration));
+        yield return null;
+        elapsed += Time.deltaTime;
+      }
     }
 
     void PressSubmitButton()
@@ -101,5 +115,179 @@ public class colourTalkScript : MonoBehaviour {
             }
         }
         wordWrappedPhrase = newPhrase;
+    }
+
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} submit <colo(u)r> [Submits the specified colo(u)r] | Valid colo(u)r's are Standard, Red, Orange, Yellow, Chartreuse, Lime, Green, Cyan, Blue, Violet, Magenta, Pink, Brown, White, Gray, Black, or Clear";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if(parameters.Length == 2)
+            {
+                yield return null;
+                if (parameters[1].EqualsIgnoreCase("Standard"))
+                {
+                    while(selectedColor != 0)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Red"))
+                {
+                    while (selectedColor != 1)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Orange"))
+                {
+                    while (selectedColor != 2)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Yellow"))
+                {
+                    while (selectedColor != 3)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Chartreuse"))
+                {
+                    while (selectedColor != 4)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Lime"))
+                {
+                    while (selectedColor != 5)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Green"))
+                {
+                    while (selectedColor != 6)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Cyan"))
+                {
+                    while (selectedColor != 7)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Blue"))
+                {
+                    while (selectedColor != 8)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Violet"))
+                {
+                    while (selectedColor != 9)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Magenta"))
+                {
+                    while (selectedColor != 10)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Pink"))
+                {
+                    while (selectedColor != 11)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Brown"))
+                {
+                    while (selectedColor != 12)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("White"))
+                {
+                    while (selectedColor != 13)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Gray"))
+                {
+                    while (selectedColor != 14)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Black"))
+                {
+                    while (selectedColor != 15)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else if (parameters[1].EqualsIgnoreCase("Clear"))
+                {
+                    while (selectedColor != 16)
+                    {
+                        roundButton.OnInteract();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    submitButton.OnInteract();
+                }
+                else
+                {
+                    yield return "sendtochaterror '"+parameters[1]+"' is not an option on my colo(u)r wheel!";
+                }
+                yield break;
+            }
+        }
     }
 }

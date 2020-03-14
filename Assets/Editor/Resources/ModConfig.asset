@@ -20,6 +20,6 @@ MonoBehaviour:
     little thing I asked for, MrMelon for making the manual, everyone who added phrases
     for this module, and to Sean for inspiring me to make mods in the first place.\n\nThe
     manual can be found here: https://ktane.timwi.de/HTML/Colo(u)r%20Talk.html"
-  version: 1.0
+  version: 1.1
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 71389b155a7f0754f8ff4a9f77721183, type: 3}
