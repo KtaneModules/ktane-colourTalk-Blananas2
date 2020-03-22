@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,14 +68,17 @@ public class colourTalkScript : MonoBehaviour {
 
     private IEnumerator TurnArrow(int prevc, int selc)
     {
-      var elapsed = 0f;
-      var duration = .5f;
-      while (elapsed < duration)
-      {
-        arrow.transform.localEulerAngles = new Vector3(-90, 0, Easing.InOutQuad(elapsed, arrowRot[prevc], arrowRot[selc], duration));
-        yield return null;
-        elapsed += Time.deltaTime;
-      }
+        var elapsed = 0f;
+        var duration = .5f;
+        var startRotation = arrow.transform.localRotation;
+        var endRotation = Quaternion.Euler(-90f, 0f, arrowRot[selc]);
+        while (elapsed < duration)
+        {
+            arrow.transform.localRotation = Quaternion.Slerp(startRotation, endRotation, elapsed / duration);
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        arrow.transform.localRotation = endRotation;
     }
 
     void PressSubmitButton()
