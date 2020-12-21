@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +31,21 @@ public class colourTalkScript : MonoBehaviour {
     private List<String> colorNames = new List<string> { "Standard", "Red", "Orange", "Yellow", "Chartreuse", "Lime", "Green", "Cyan", "Blue", "Violet", "Magenta", "Pink", "Brown", "White", "Gray", "Black", "Clear" };
     public Color[] textColorOptions;
     int selectedColor;
+    private ColourTalkSettings Settings = new ColourTalkSettings();
+    string[] preventedTerms;
 
     void Awake()
     {
         moduleId = moduleIdCounter++;
-
+        ModConfig<ColourTalkSettings> modConfig = new ModConfig<ColourTalkSettings>("ColourTalkSettings");
+        //Read from the settings file, or create one if one doesn't exist
+        Settings = modConfig.Settings;
+        //Update the settings file incase there was an error during read
+        modConfig.Settings = Settings;
+        if (Settings.preventTerms.Contains(';'))
+            preventedTerms = Settings.preventTerms.Split(';');
+        else
+            preventedTerms = new string[] { Settings.preventTerms };
         roundButton.OnInteract += delegate () { PressRoundButton(); return false; };
         submitButton.OnInteract += delegate () { PressSubmitButton(); return false; };
     }
@@ -44,13 +54,22 @@ public class colourTalkScript : MonoBehaviour {
     void Start()
     {
         textColor = UnityEngine.Random.Range(0, 17);
+        redo:
         selectedPhrase = UnityEngine.Random.Range(0, 1000);
         solutionColor = selectedPhrase % 17;
         literalPhrase = phraseList.phrases[selectedPhrase];
+        if (preventedTerms[0] != String.Empty || preventedTerms.Length != 1)
+        {
+            for (int i = 0; i < preventedTerms.Length; i++)
+            {
+                if (literalPhrase.ToLower().Contains(preventedTerms[i].ToLower()))
+                    goto redo;
+            }
+        }
         WordWrap();
         screenText.text = wordWrappedPhrase;
         screenText.color = textColorOptions[textColor];
-        Debug.LogFormat("[Colo(u)r Talk #{0}] The phrase is: \"{1}\"", moduleId, literalPhrase.Replace("\n", ""));
+        Debug.LogFormat("[Colo(u)r Talk #{0}] The phrase is: \"{1}\"", moduleId, literalPhrase.Replace("\n", "").Replace("  ", " ").Replace("ç", ":eyes:").Replace("Ç", ":orange:"));
         Debug.LogFormat("[Colo(u)r Talk #{0}] The solution colo(u)r is: {1} ({2}).", moduleId, colorNames[solutionColor], colorLetters[solutionColor]);
     }
 
@@ -129,168 +148,68 @@ public class colourTalkScript : MonoBehaviour {
         string[] parameters = command.Split(' ');
         if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
-            if(parameters.Length == 2)
+            yield return null;
+            if (parameters.Length > 2)
             {
-                yield return null;
-                if (parameters[1].EqualsIgnoreCase("Standard"))
-                {
-                    while(selectedColor != 0)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Red"))
-                {
-                    while (selectedColor != 1)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Orange"))
-                {
-                    while (selectedColor != 2)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Yellow"))
-                {
-                    while (selectedColor != 3)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Chartreuse"))
-                {
-                    while (selectedColor != 4)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Lime"))
-                {
-                    while (selectedColor != 5)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Green"))
-                {
-                    while (selectedColor != 6)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Cyan"))
-                {
-                    while (selectedColor != 7)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Blue"))
-                {
-                    while (selectedColor != 8)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Violet"))
-                {
-                    while (selectedColor != 9)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Magenta"))
-                {
-                    while (selectedColor != 10)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Pink"))
-                {
-                    while (selectedColor != 11)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Brown"))
-                {
-                    while (selectedColor != 12)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("White"))
-                {
-                    while (selectedColor != 13)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Gray"))
-                {
-                    while (selectedColor != 14)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Black"))
-                {
-                    while (selectedColor != 15)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else if (parameters[1].EqualsIgnoreCase("Clear"))
-                {
-                    while (selectedColor != 16)
-                    {
-                        roundButton.OnInteract();
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    submitButton.OnInteract();
-                }
-                else
-                {
-                    yield return "sendtochaterror '"+parameters[1]+"' is not an option on my colo(u)r wheel!";
-                }
-                yield break;
+                yield return "sendtochaterror Too many parameters!";
             }
+            else if (parameters.Length == 2)
+            {
+                if (parameters[1].Length == 0)
+                {
+                    yield return "sendtochaterror 'Nothing' is not an option on my colo(u)r wheel!";
+                    yield break;
+                }
+                string color = parameters[1][0].ToString().ToUpper() + parameters[1].Substring(1).ToLower();
+                if (!colorNames.Contains(color))
+                {
+                    yield return "sendtochaterror!f '" + parameters[1] + "' is not an option on my colo(u)r wheel!";
+                    yield break;
+                }
+                while (selectedColor != colorNames.IndexOf(color))
+                {
+                    roundButton.OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                submitButton.OnInteract();
+            }
+            else if (parameters.Length == 1)
+            {
+                yield return "sendtochaterror Please specify the colo(u)r you wish to submit!";
+            }
+            yield break;
         }
     }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        yield return null;
+        while (selectedColor != solutionColor)
+        {
+            roundButton.OnInteract();
+            yield return new WaitForSeconds(0.1f);
+        }
+        submitButton.OnInteract();
+    }
+
+    class ColourTalkSettings
+    {
+        public string preventTerms = "";
+    }
+
+    static Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
+    {
+        new Dictionary<string, object>
+        {
+            { "Filename", "ColourTalkSettings.json" },
+            { "Name", "Colo(u)r Talk Settings" },
+            { "Listing", new List<Dictionary<string, object>>{
+                new Dictionary<string, object>
+                {
+                    { "Key", "preventTerms" },
+                    { "Text", "Will prevent phrases generating with any of these terms. Example: 'alpha;bravo;charlie'" }
+                },
+            } }
+        }
+    };
 }
