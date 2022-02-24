@@ -6,7 +6,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
 
-public class colourTalkScript : MonoBehaviour {
+public class colourTalkScript : MonoBehaviour
+{
 
     public KMBombInfo Bomb;
     public KMAudio Audio;
@@ -26,9 +27,9 @@ public class colourTalkScript : MonoBehaviour {
     int textColor;
     string literalPhrase;
     string wordWrappedPhrase;
-    private List<float> arrowRot = new List<float> { 0f, 21.18f, 42.35f, 63.53f, 84.71f, 105.88f, 127.06f, 148.24f, 169.41f, 190.59f, 211.76f, 232.94f, 254.12f, 275.29f, 296.47f, 317.65f, 338.82f };
-    private List<Char> colorLetters = new List<char> { 'S', 'R', 'O', 'Y', 'H', 'L', 'G', 'C', 'B', 'V', 'M', 'P', 'N', 'W', 'A', 'K', 'X' };
-    private List<String> colorNames = new List<string> { "Standard", "Red", "Orange", "Yellow", "Chartreuse", "Lime", "Green", "Cyan", "Blue", "Violet", "Magenta", "Pink", "Brown", "White", "Gray", "Black", "Clear" };
+    private readonly List<float> arrowRot = new List<float> { 0f, 21.18f, 42.35f, 63.53f, 84.71f, 105.88f, 127.06f, 148.24f, 169.41f, 190.59f, 211.76f, 232.94f, 254.12f, 275.29f, 296.47f, 317.65f, 338.82f };
+    private readonly List<char> colorLetters = new List<char> { 'S', 'R', 'O', 'Y', 'H', 'L', 'G', 'C', 'B', 'V', 'M', 'P', 'N', 'W', 'A', 'K', 'X' };
+    private readonly List<string> colorNames = new List<string> { "Standard", "Red", "Orange", "Yellow", "Chartreuse", "Lime", "Green", "Cyan", "Blue", "Violet", "Magenta", "Pink", "Brown", "White", "Gray", "Black", "Clear" };
     public Color[] textColorOptions;
     int selectedColor;
     private ColourTalkSettings Settings = new ColourTalkSettings();
@@ -131,7 +132,8 @@ public class colourTalkScript : MonoBehaviour {
             {
                 newPhrase += "\n";
                 letterCount = 0;
-            } else
+            }
+            else
             {
                 newPhrase += literalPhrase[i];
             }
@@ -140,9 +142,9 @@ public class colourTalkScript : MonoBehaviour {
     }
 
     //twitch plays
-    #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} submit <colo(u)r> [Submits the specified colo(u)r] | Valid colo(u)r's are Standard, Red, Orange, Yellow, Chartreuse, Lime, Green, Cyan, Blue, Violet, Magenta, Pink, Brown, White, Gray, Black, or Clear";
-    #pragma warning restore 414
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} submit <colo(u)r> [Submits the specified colo(u)r] | Valid colo(u)rs are Standard, Red, Orange, Yellow, Chartreuse, Lime, Green, Cyan, Blue, Violet, Magenta, Pink, Brown, White, Gray, Black, or Clear";
+#pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
         string[] parameters = command.Split(' ');
@@ -155,18 +157,16 @@ public class colourTalkScript : MonoBehaviour {
             }
             else if (parameters.Length == 2)
             {
-                if (parameters[1].Length == 0)
-                {
-                    yield return "sendtochaterror 'Nothing' is not an option on my colo(u)r wheel!";
-                    yield break;
-                }
-                string color = parameters[1][0].ToString().ToUpper() + parameters[1].Substring(1).ToLower();
-                if (!colorNames.Contains(color))
+                string color = parameters[1];
+                var ix = colorNames.FindIndex(cn => cn.EqualsIgnoreCase(color));
+                if (ix == -1)
+                    ix = colorLetters.FindIndex(cn => cn.ToString().EqualsIgnoreCase(color));
+                if (ix == -1)
                 {
                     yield return "sendtochaterror!f '" + parameters[1] + "' is not an option on my colo(u)r wheel!";
                     yield break;
                 }
-                while (selectedColor != colorNames.IndexOf(color))
+                while (selectedColor != ix)
                 {
                     roundButton.OnInteract();
                     yield return new WaitForSeconds(0.1f);
