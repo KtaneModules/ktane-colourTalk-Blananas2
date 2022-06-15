@@ -143,7 +143,7 @@ public class colourTalkScript : MonoBehaviour
 
     //twitch plays
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} submit <colo(u)r> [Submits the specified colo(u)r] | Valid colo(u)rs are Standard, Red, Orange, Yellow, Chartreuse, Lime, Green, Cyan, Blue, Violet, Magenta, Pink, Brown, White, Gray, Black, or Clear";
+    private readonly string TwitchHelpMessage = @"!{0} submit <colo(u)r> [Submits the specified colo(u)r] | Valid colo(u)rs are S, R, O, Y, H, L, G, C, B, V, M, P, N, W, A, K and X.";
 #pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
