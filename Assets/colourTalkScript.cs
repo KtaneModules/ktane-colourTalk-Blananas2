@@ -11,6 +11,8 @@ public class colourTalkScript : MonoBehaviour
 
     public KMBombInfo Bomb;
     public KMAudio Audio;
+    public KMBombModule Module;
+    public KMRuleSeedable RuleSeedable;
 
     public KMSelectable roundButton;
     public KMSelectable submitButton;
@@ -34,6 +36,7 @@ public class colourTalkScript : MonoBehaviour
     int selectedColor;
     private ColourTalkSettings Settings = new ColourTalkSettings();
     string[] preventedTerms;
+    private int[] _numArrayForRS;
 
     void Awake()
     {
@@ -54,12 +57,18 @@ public class colourTalkScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
         textColor = UnityEngine.Random.Range(0, 17);
+        var rnd = RuleSeedable.GetRNG();
+        _numArrayForRS = Enumerable.Range(0, 1000).Select(i => i % 17).ToArray();
+        if (rnd.Seed != 1)
+            rnd.ShuffleFisherYates(_numArrayForRS);
+
         redo:
         selectedPhrase = UnityEngine.Random.Range(0, 1000);
-        solutionColor = selectedPhrase % 17;
+        solutionColor = _numArrayForRS[selectedPhrase];
         literalPhrase = phraseList.phrases[selectedPhrase];
-        if (preventedTerms[0] != String.Empty || preventedTerms.Length != 1)
+        if (preventedTerms[0] != string.Empty || preventedTerms.Length != 1)
         {
             for (int i = 0; i < preventedTerms.Length; i++)
             {
@@ -77,7 +86,7 @@ public class colourTalkScript : MonoBehaviour
     void PressRoundButton()
     {
         roundButton.AddInteractionPunch();
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         if (moduleSolved != true)
         {
             var prevColor = selectedColor;
@@ -104,19 +113,19 @@ public class colourTalkScript : MonoBehaviour
     void PressSubmitButton()
     {
         submitButton.AddInteractionPunch();
-        GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         if (moduleSolved != true)
         {
             if (selectedColor == solutionColor)
             {
                 Debug.LogFormat("[Colo(u)r Talk #{0}] Selected colo(u)r is {1} ({2}), which is correct. Module solved.", moduleId, colorNames[selectedColor], colorLetters[selectedColor]);
-                GetComponent<KMBombModule>().HandlePass();
+                Module.HandlePass();
                 moduleSolved = true;
             }
             else
             {
                 Debug.LogFormat("[Colo(u)r Talk #{0}] Selected colo(u)r is {1} ({2}), which is incorrect. Module striked.", moduleId, colorNames[selectedColor], colorLetters[selectedColor]);
-                GetComponent<KMBombModule>().HandleStrike();
+                Module.HandleStrike();
             }
         }
     }

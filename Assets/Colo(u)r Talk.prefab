@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 114853960920223876}
   - component: {fileID: 114139553842080666}
   - component: {fileID: 114891064255698148}
+  - component: {fileID: 114928038654112392}
   m_Layer: 0
   m_Name: Colo(u)r Talk
   m_TagString: Untagged
@@ -1052,6 +1053,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bomb: {fileID: 114454383462897410}
   Audio: {fileID: 114915473299363512}
+  Module: {fileID: 114853960920223876}
+  RuleSeedable: {fileID: 114928038654112392}
   roundButton: {fileID: 114421417272674514}
   submitButton: {fileID: 114290513712854660}
   screenText: {fileID: 102684215568851188}
@@ -1096,3 +1099,15 @@ MonoBehaviour:
   m_Script: {fileID: -1675560866, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114928038654112392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676409040304040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf69c2de51bd3c43bbd9bc22578ee08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seed: 1
